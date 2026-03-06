@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>สมัครสมาชิก | K6 Guide</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body{
+background:linear-gradient(135deg,#fff1eb,#ace0f9);
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.card-box{
+background:white;
+padding:40px;
+border-radius:20px;
+box-shadow:0 20px 50px rgba(0,0,0,0.1);
+width:100%;
+max-width:400px;
+}
+</style>
+</head>
+<body>
+
+<div class="card-box">
+<h3 class="text-center mb-4">สมัครสมาชิก</h3>
+
+<input type="text" id="username" class="form-control mb-3" placeholder="Username">
+<input type="email" id="email" class="form-control mb-3" placeholder="Email">
+<input type="password" id="password" class="form-control mb-3" placeholder="Password">
+
+<button class="btn btn-danger btn-block" onclick="register()">สมัครสมาชิก</button>
+
+<p class="text-center mt-3">
+มีบัญชีแล้ว? <a href="login.html">เข้าสู่ระบบ</a>
+</p>
+
+<div id="errorMsg" class="text-danger text-center mt-2"></div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey:"AIzaSyAruIfPAa_g0rD6iJsYbOC4HSjRpjkDJ5s",
+authDomain:"programgroup-804c9.firebaseapp.com",
+projectId:"programgroup-804c9",
+storageBucket:"programgroup-804c9.firebasestorage.app",
+messagingSenderId:"406167474531",
+appId:"1:406167474531:web:4acc534aff4b5f00720356"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window.register = async function(){
+
+const username = document.getElementById("username").value.trim().toLowerCase();
+const email = document.getElementById("email").value.trim();
+const password = document.getElementById("password").value.trim();
+const errorMsg = document.getElementById("errorMsg");
+
+errorMsg.innerText="";
+
+if(!username || !email || !password){
+errorMsg.innerText="กรุณากรอกข้อมูลให้ครบ";
+return;
+}
+
+if(password.length < 6){
+errorMsg.innerText="รหัสผ่านอย่างน้อย 6 ตัว";
+return;
+}
+
+/* ตรวจ username ซ้ำ */
+const q = query(collection(db,"users"),where("username","==",username));
+const snap = await getDocs(q);
+
+if(!snap.empty){
+errorMsg.innerText="Username นี้ถูกใช้แล้ว";
+return;
+}
+
+try{
+
+const userCredential = await createUserWithEmailAndPassword(auth,email,password);
+const user = userCredential.user;
+
+await setDoc(doc(db,"users",user.uid),{
+username:username,
+email:email,
+role:"user",
+isBanned:false,
+createdAt:new Date()
+});
+
+alert("สมัครสมาชิกสำเร็จ");
+window.location.href="login.html";
+
+}catch(error){
+errorMsg.innerText="สมัครไม่สำเร็จ";
+}
+
+};
+
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Reviews | Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body data-page="reviews">
+
+<div class="container mt-5">
+<h3>⭐ จัดการรีวิว</h3>
+<div id="reviewList" class="mt-4"></div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getFirestore,
+  collectionGroup,
+  onSnapshot,
+  doc,
+  deleteDoc,
+  getDoc,
+  updateDoc,
+  increment
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+/* ================= FIREBASE ================= */
+
+const firebaseConfig = {
+  apiKey:"AIzaSyAruIfPAa_g0rD6iJsYbOC4HSjRpjkDJ5s",
+  authDomain:"programgroup-804c9.firebaseapp.com",
+  projectId:"programgroup-804c9"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* ================= LOAD REVIEWS ================= */
+
+onSnapshot(collectionGroup(db,"reviews"), snapshot => {
+
+  const list = document.getElementById("reviewList");
+  list.innerHTML = "";
+
+  snapshot.forEach(docSnap => {
+
+    const data = docSnap.data();
+    const reviewId = docSnap.id;
+    const restaurantId = docSnap.ref.parent.parent.id;
+
+    list.innerHTML += `
+      <div class="card p-3 mb-2">
+        <strong>${data.comment}</strong>
+        <br>
+        ร้าน: ${restaurantId}
+        <br>
+        <button class="btn btn-sm btn-danger mt-2"
+          onclick="adminDeleteReview('${restaurantId}','${reviewId}')">
+          ลบ
+        </button>
+      </div>
+    `;
+  });
+
+});
+
+/* ================= DELETE REVIEW ================= */
+
+window.adminDeleteReview = async function(restaurantId, reviewId) {
+
+  if (!confirm("ลบรีวิวนี้?")) return;
+
+  try {
+
+    const reviewRef = doc(db, "restaurants", restaurantId, "reviews", reviewId);
+
+    // 1️⃣ ดึง rating ก่อนลบ
+    const snap = await getDoc(reviewRef);
+    if (!snap.exists()) return;
+
+    const ratingValue = snap.data().rating || 0;
+
+    // 2️⃣ ลบรีวิว
+    await deleteDoc(reviewRef);
+
+    // 3️⃣ หักคะแนนร้าน
+    const restaurantRef = doc(db, "restaurants", restaurantId);
+
+    await updateDoc(restaurantRef, {
+      ratingCount: increment(-1),
+      ratingTotal: increment(-ratingValue)
+    });
+
+  } catch(error) {
+    console.error("Delete error:", error);
+    alert("ลบไม่สำเร็จ");
+  }
+
+};
+
+</script>
+</body>
+</html>

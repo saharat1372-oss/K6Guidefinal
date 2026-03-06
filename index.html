@@ -1,0 +1,1797 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>K6 GUIDE</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Noto Sans Thai", sans-serif;
+        margin: 0;
+        background: #ffffff;
+        padding-top: 80px;
+        overflow-x: hidden;
+      }
+      /* NAVBAR */
+
+      .navbar {
+        background: rgba(39, 39, 39, 0.9);
+        backdrop-filter: blur(8px);
+      }
+
+      .navbar-brand img {
+        height: 80px;
+      }
+
+      .nav-link {
+        font-weight: 500;
+        position: relative;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background: #ff4d4d;
+        transition: 0.3s;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      .navbar .search-form {
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+
+      .navbar .search-form .form-control {
+        width: 260px;
+        border-radius: 50px;
+        padding: 8px 12px 8px 38px;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        color: #fff;
+        outline: none;
+      }
+
+      .navbar .search-form .form-control:focus {
+        box-shadow: none;
+      }
+
+      .search-dropdown {
+        display: inline-block;
+        position: static;
+        right: auto;
+        top: auto;
+        background: transparent;
+        z-index: 2000;
+      }
+
+      .btn-white-close {
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        border: none;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      }
+
+      .btn-white-close:focus {
+        outline: none;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+      }
+
+      .navbar .search-form .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #777;
+        font-size: 14px;
+        pointer-events: none;
+      }
+
+      .navbar .search-form .btn-search {
+        border-radius: 50px;
+        padding: 6px 12px;
+        margin-left: 6px;
+      }
+
+      .navbar .navbar-nav {
+        align-items: center;
+      }
+
+      .navbar-brand {
+        margin-left: 8px;
+      }
+
+      .search-form {
+        margin-left: 12px;
+      }
+      /* NAVBAR hide on scroll */
+
+      .navbar {
+        transition:
+          transform 0.25s ease,
+          padding 0.25s ease,
+          background 0.25s ease;
+        z-index: 1030;
+      }
+
+      .navbar.navbar-hidden {
+        transform: translateY(-100%);
+      }
+
+      .navbar.navbar-shrink {
+        padding-top: 6px;
+        padding-bottom: 6px;
+        background: rgba(0, 0, 0, 0.85);
+      }
+
+      @media (max-width: 768px) {
+        .navbar .search-form .form-control {
+          width: 120px;
+        }
+      }/* NAVBAR hide on scroll */
+        
+        .navbar {
+            transition: transform 0.25s ease, padding 0.25s ease, background 0.25s ease;
+            z-index: 1030;
+        }
+        
+        .navbar.navbar-hidden {
+            transform: translateY(-100%);
+        }
+        
+        .navbar.navbar-shrink {
+            padding-top: 6px;
+            padding-bottom: 6px;
+            background: rgba(0, 0, 0, 0.85);
+        }
+        
+        @media (max-width: 768px) {
+            .navbar .search-form .form-control {
+                width: 120px;
+            }
+        }
+      /* HERO */
+      /* HERO (full-screen centered style) */
+
+      #hero {
+        position: relative;
+      }
+
+      .hero {
+        height: 100vh;
+        background-image: url("K6 GUIDE_pages-to-jpg-0001.jpg");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        color: #fff;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.5),
+          rgba(0, 0, 0, 0.55)
+        );
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 960px;
+        padding: 0 20px;
+      }
+
+      .hero-title {
+        font-family: "Great Vibes", cursive;
+        font-size: 110px;
+        line-height: 0.85;
+        margin: 0;
+        text-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+      }
+
+      .hero-sub {
+        letter-spacing: 4px;
+        font-weight: 500;
+        margin-top: 12px;
+        margin-bottom: 18px;
+      }
+
+      .hero-cta {
+        margin-top: 18px;
+      }
+
+      .hero-cta .btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+      }
+      /* right vertical social */
+
+      .hero-social {
+        position: fixed;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 60;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .hero-social a {
+        color: rgba(255, 255, 255, 0.9);
+        margin: 8px 0;
+        background: rgba(0, 0, 0, 0.25);
+        padding: 8px 10px;
+        border-radius: 6px;
+        display: inline-block;
+      }
+
+      .btn-order {
+        background: #0fa676;
+        color: #fff;
+        border-radius: 4px;
+        padding: 6px 12px;
+        margin-right: 8px;
+      }
+
+      @media (max-width: 992px) {
+        .hero-title {
+          font-size: 60px;
+        }
+        .hero-social {
+          right: 8px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .hero-title {
+          font-size: 40px;
+        }
+        .hero-sub {
+          font-size: 14px;
+        }
+      }
+      /* FEATURED LAYOUT (big left card + stacked right cards) */
+
+      .featured-section {
+        padding: 30px 0;
+      }
+
+      .featured-main {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        background: #fff;
+      }
+
+      .featured-main img {
+        width: 100%;
+        height: 420px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .featured-main .meta {
+        padding: 16px;
+      }
+
+      .featured-side .card {
+        margin-bottom: 18px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .featured-side .card img {
+        height: 120px;
+        object-fit: cover;
+      }
+      /* promo-banner removed per request */
+      /* HORIZONTAL ARTICLE STRIP */
+
+      .article-strip {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        padding: 18px 6px;
+      }
+
+      .article-strip .card {
+        min-width: 220px;
+        flex: 0 0 auto;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .article-strip .card img {
+        height: 120px;
+        object-fit: cover;
+      }
+
+      .article-strip::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .article-strip::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+      }
+      /* CUSTOM CAROUSEL BUTTON */
+
+      .custom-carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 22px;
+        z-index: 10;
+        transition: all 0.4s ease;
+        text-decoration: none;
+      }
+
+      .prev-btn {
+        left: 40px;
+      }
+
+      .next-btn {
+        right: 40px;
+      }
+
+      .custom-carousel-btn:hover {
+        background: #ff4d4d;
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 10px 30px rgba(255, 77, 77, 0.6);
+      }
+      /* SEARCH */
+
+      .search-section {
+        margin-top: -120px;
+        position: relative;
+        z-index: 20;
+      }
+
+      .search-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px);
+        padding: 30px;
+        border-radius: 25px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .search-card input {
+        border-radius: 50px;
+        padding: 15px 20px;
+      }
+
+      .btn-search {
+        background: #ff4d4d;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+      }
+
+      .btn-search:hover {
+        background: #cc0000;
+      }
+      /* HIGHLIGHT */
+
+      .highlight-section {
+        background: linear-gradient(
+          180deg,
+          #7a0003 0%,
+          #9e0b0f 40%,
+          #b30000 100%
+        );
+        padding-top: 150px;
+        padding-bottom: 100px;
+      }
+      /* CARD */
+
+      .card {
+        border: none;
+        border-radius: 18px;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .card img {
+        height: 220px;
+        object-fit: cover;
+      }
+
+      .card:hover {
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+      }
+      .restaurant-info{
+  padding:14px 16px;
+}
+
+.restaurant-name{
+  font-size:16px;
+  font-weight:600;
+  color:#333;
+  margin-bottom:6px;
+
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  line-clamp:1;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+.restaurant-desc{
+  font-size:13px;
+  color:#777;
+  line-height:1.4;
+
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}      /* FOOTER */
+
+      footer {
+        background: #111;
+        color: white;
+        padding: 60px 0 30px 0;
+        margin-top: 80px;
+      }
+      /* MOBILE */
+
+      @media (max-width: 768px) {
+        .custom-carousel-btn {
+          width: 50px;
+          height: 50px;
+          font-size: 16px;
+        }
+        .prev-btn {
+          left: 15px;
+        }
+        .next-btn {
+          right: 15px;
+        }
+        .card img {
+          height: 160px;
+        }
+      }
+    </style>
+    <style>
+      /* RATING STARS */
+
+      .rating {
+        cursor: pointer;
+      }
+
+      .star {
+        font-size: 22px;
+        color: #ccc;
+        transition: 0.2s ease;
+      }
+
+      .star.active {
+        color: #ffc107;
+      }
+
+      .star:hover {
+        transform: scale(1.2);
+      }
+      /* COMMENT CARD */
+
+      .review-slider-wrapper {
+        overflow-x: auto;
+        padding: 20px 0;
+      }
+
+      .review-slider {
+        display: flex;
+        gap: 20px;
+        padding: 0 40px;
+      }
+
+      .mini-review {
+        min-width: 260px;
+        background: #fff;
+        padding: 14px 18px;
+        border-radius: 14px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        flex-shrink: 0;
+      }
+
+      .mini-review .stars {
+        color: #ff9800;
+        font-size: 14px;
+        margin-bottom: 6px;
+      }
+
+      .mini-review .name {
+        font-weight: 600;
+        font-size: 13px;
+      }
+      /* ===== PREMIUM AVATAR ===== */
+.avatar-circle{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  color:white;
+  font-size:15px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.25);
+  transition:.3s ease;
+}
+
+.avatar-circle:hover{
+  transform:scale(1.08);
+}
+
+.dropdown-menu{
+  border-radius:12px;
+}
+
+/*รีวิวร้าน*/
+.footer-review-section{
+  background:#b80000;
+  padding:50px 0;
+}
+
+.review-title{
+  color:white;
+  font-weight:600;
+  margin-bottom:30px;
+}
+
+.footer-slider-wrapper{
+  overflow:hidden;
+  position:relative;
+}
+
+.footer-slider{
+  display:flex;
+  gap:20px;
+  animation: scrollSlider 35s linear infinite;
+}
+
+.footer-review-card{
+  min-width:230px;
+  background:white;
+  border-radius:14px;
+  padding:15px;
+  text-align:center;
+  box-shadow:0 6px 16px rgba(0,0,0,0.15);
+  transition:0.3s;
+}
+
+.footer-review-card:hover{
+  transform:translateY(-5px);
+}
+
+.review-avatar{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:#ff9800;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  font-size:18px;
+  margin:auto;
+  margin-bottom:8px;
+}
+
+.review-name{
+  font-weight:600;
+}
+
+.review-shop{
+  font-size:13px;
+  color:#ff9800;
+  margin-bottom:5px;
+}
+
+.review-comment{
+  font-size:13px;
+  color:#666;
+}
+
+@keyframes scrollSlider{
+
+  0%{
+    transform:translateX(0);
+  }
+
+  100%{
+    transform:translateX(-50%);
+  }
+
+}
+/*bullet point*/
+.category-icons{
+  display:flex;
+  justify-content:center;
+  gap:50px;
+  flex-wrap:wrap;
+  margin:40px 0;
+}
+
+.category-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.category-item i{
+  font-size:28px;
+  color:#ff9800;
+  margin-bottom:6px;
+}
+
+.category-item span{
+  font-size:14px;
+  font-weight:500;
+}
+
+.category-item:hover{
+  transform:translateY(-4px);
+}
+.category-section{
+  padding:40px 0;
+  background:#fafafa;
+}
+    </style>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+          <img src="homepage/newlogo.png"
+        /></a>
+
+        <button
+          class="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#menu"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">หน้าหลัก</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                >หมวดหมู่</a
+              >
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">ร้านอาหาร</a>
+                <a class="dropdown-item" href="#">คาเฟ่ ของหวาน</a>
+                <a class="dropdown-item" href="#">ปิ้งย่าง ชาบู</a>
+              </div>
+            </li>
+
+            <li class="nav-item"><a class="nav-link" href="#">บทความ</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">ติดต่อเรา</a></li>
+
+            <li class="nav-item">
+              <form
+                class="form-inline search-form"
+                action="search.html"
+                method="get"
+              >
+                <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                <input
+                  name="q"
+                  id="navSearchInput"
+                  class="form-control form-control-sm"
+                  type="search"
+                  placeholder=""
+                  aria-label="ค้นหา"
+                  autocomplete="off"
+                />
+                <button
+                  type="button"
+                  id="closeSearchBtn"
+                  class="btn btn-white-close d-none ml-2"
+                  aria-label="ปิด"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              </form>
+            </li>
+          </ul>
+        </div>
+        <div class="ml-3" id="authArea">
+
+  <!-- LOGIN BUTTON -->
+  <a href="login.html"
+     id="loginBtn"
+     class="btn btn-outline-light btn-sm">
+    Login
+  </a>
+
+  <!-- USER DROPDOWN -->
+  <div class="dropdown"
+       id="userDropdown"
+       style="display:none;">
+
+    <a class="d-flex align-items-center text-white dropdown-toggle"
+       href="#"
+       id="userMenu"
+       data-toggle="dropdown"
+       aria-haspopup="true"
+       aria-expanded="false"
+       style="text-decoration:none;">
+
+      <div class="avatar-circle mr-2"
+           id="avatarCircle">
+        <span id="avatarLetter">U</span>
+      </div>
+
+      <span id="userNameDisplay"></span>
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-right shadow">
+
+      <div class="dropdown-item-text d-flex justify-content-between align-items-center">
+        <div>
+          <i class="fa fa-user mr-2"></i>
+          <span id="dropdownUserName"></span>
+        </div>
+        <span id="roleBadge" class="badge"></span>
+      </div>
+
+      <div class="dropdown-divider"></div>
+
+      <a class="dropdown-item"
+         href="admin.html"
+         id="adminLink"
+         style="display:none;">
+        <i class="fa fa-crown mr-2"></i> Admin Dashboard
+      </a>
+
+      <div class="dropdown-divider"></div>
+
+      <a class="dropdown-item text-danger"
+         href="#"
+         onclick="logout()">
+        <i class="fa fa-sign-out-alt mr-2"></i> Logout
+      </a>
+
+    </div>
+  </div>
+
+</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- HERO -->
+    <div id="hero" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img
+            src="homepage/1.jpg"
+            class="d-block w-100"
+          />
+        </div>
+
+        <div class="carousel-item">
+          <img
+            src="homepage/2.jpg"
+            class="d-block w-100"
+          />
+        </div>
+
+        <div class="carousel-item">
+          <img
+            src="homepage/3.jpg"
+            class="d-block w-100"
+          />
+        </div>
+      </div>
+      <!-- ปุ่มเลื่อนซ้าย -->
+      <a
+        class="carousel-control-prev"
+        href="#hero"
+        role="button"
+        data-slide="prev"
+      >
+        <span class="carousel-control-prev-icon"></span>
+      </a>
+
+      <!-- ปุ่มเลื่อนขวา -->
+      <a
+        class="carousel-control-next"
+        href="#hero"
+        role="button"
+        data-slide="next"
+      >
+        <span class="carousel-control-next-icon"></span>
+      </a>
+    </div>
+    <section class="category-section">
+  <div class="container">
+
+    <div class="category-icons">
+
+      <div class="category-item">
+        <i class="fa fa-utensils"></i>
+        <span>ร้านอาหาร</span>
+      </div>
+
+      <div class="category-item">
+        <i class="fa fa-coffee"></i>
+        <span>คาเฟ่</span>
+      </div>
+
+      <div class="category-item">
+        <i class="fa fa-ice-cream"></i>
+        <span>เครื่องดื่ม/ของหวาน</span>
+      </div>
+
+      <div class="category-item">
+        <i class="fa fa-bowl-food"></i>
+        <span>ปิ้งย่าง / ชาบู</span>
+      </div>
+
+      <div class="category-item">
+        <i class="fa fa-fire"></i>
+        <span>ร้านยอดนิยม</span>
+      </div>
+
+      <div class="category-item">
+        <i class="fa fa-th-large"></i>
+        <span>หมวดร้าน</span>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+    <!-- FEATURED: large left + stacked right (uses existing images/data) -->
+    <section class="featured-section container">
+      <h2 class="mb-3">ร้านยอดฮิตติดเทรนด์ 🔥</h2>
+      <div class="row">
+        <div class="col-lg-8 mb-3">
+          <article class="featured-main">
+            <img
+              src="ปิ้งย่าง/5.ย่างเนย/487858858_1090501839781252_5299545450031885254_n.jpg"
+              alt="Featured"
+            />
+            <div class="meta">
+              <h3 class="mb-2">ร้านย่างเนยคลอง 6</h3>
+              <small class="text-muted">ร้านปิ้งย่าง • 15 ก.พ. 69</small>
+              <p class="mt-2 text-muted">
+                บรรยากาศโปร่งโล่ง หอมเนยบนเตาสุดฟิน วัตถุดิบหลากหลาย
+                น้ำจิ้มเข้มข้น เติมได้ไม่อั้น คุ้มค่าทุกคำ
+              </p>
+              <a href="detailyangneoy.html" class="stretched-link"></a>
+            </div>
+          </article>
+        </div>
+        <div class="col-lg-4 featured-side">
+          <div class="card">
+            <div class="row no-gutters align-items-center">
+              <div class="col-5">
+                <img
+                  src="ตามสั่ง/ตำรสซิ่ง/3d1b88ba-f5a5-4ef3-95d9-79c188120ede.png"
+                  class="img-fluid"
+                  alt="side1"
+                />
+              </div>
+              <div class="col-7 p-3">
+                <h6 class="mb-1">ตำรสซิ่ง</h6>
+                <small class="text-muted">ร้านตามสั่ง • 9 ก.พ. 69</small>
+              </div>
+              <a href="detailTum.html" class="stretched-link"></a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="row no-gutters align-items-center">
+              <div class="col-5">
+                <img
+                  src="ปิ้งย่าง/3.อิ่มรักษ์/615383869_1468255098635950_6802440827771497004_n.jpg"
+                  class="img-fluid"
+                  alt="side2"
+                />
+              </div>
+              <div class="col-7 p-3">
+                <h6 class="mb-1">อิ่มรักษ์ หมูกระทะบุฟเฟ่ต์</h6>
+                <small class="text-muted">ร้านปิ้งย่าง • 11 ก.พ. 69</small>
+              </div>
+              <a href="detailIimRak.html" class="stretched-link"></a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="row no-gutters align-items-center">
+              <div class="col-5">
+                <img
+                  src="ตามสั่ง/กระเพาเข่งคลอง6/6C4A445B-C025-4965-9362-82FB42EE58CB.png"
+                  class="img-fluid"
+                  alt="side2"
+                />
+              </div>
+              <div class="col-7 p-3">
+                <h6 class="mb-1">ร้านกะเพราเข่ง คลอง 6</h6>
+                <small class="text-muted">ร้านตามสั่ง • 15 ก.พ. 69</small>
+                <a href="detailKapaoKengK.6.html" class="stretched-link"></a>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="row no-gutters align-items-center">
+              <div class="col-5">
+                <img
+                  src="ของหวาน/5.เดอะ สตอรี่คาเฟ่/5c647e3d-64f6-4c38-b174-79cb576e300e.png"
+                  class="img-fluid"
+                  alt="side2"
+                />
+              </div>
+              <div class="col-7 p-3">
+                <h6 class="mb-1">เดอะ สตอรี่คาเฟ่</h6>
+                <small class="text-muted">ร้านของหวาน • 17 ก.พ. 69</small>
+                <a href="detailTheStoryCafe.html" class="stretched-link"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMO BANNER removed per user request -->
+
+    <!-- ARTICLE STRIP: horizontally scrollable list (reuse card data) -->
+    <section class="container mt-3">
+      <h5 class="mb-3">รวมร้านอาหารอร่อย</h5>
+      <div class="article-strip">
+        <!-- reuse some existing cards as compact items -->
+        <div class="card">
+          <img
+            src="ของหวาน/ธามคาเฟ่/4a1ce0ae-2592-4660-977e-6417b840c562.png"
+            class="card-img-top"
+            alt="r1"
+          />
+          <div class="card-body">
+            <h6 class="card-title">Time Cafe</h6>
+            <p class="card-text text-muted small">คาเฟ่สไตล์มินิมอลสุดเก๋</p>
+          </div>
+          <a href="detailTimeCafe.html" class="stretched-link"></a>
+        </div>
+
+        <div class="card">
+          <img
+            src="ปิ้งย่าง/2.ฮีลใจหมูกระทะ/472621523_122160221186334218_27481724761868561_n.jpg"
+            class="card-img-top"
+            alt="r2"
+          />
+          <div class="card-body">
+            <h6 class="card-title">ฮีลใจหมูกระทะ</h6>
+            <p class="card-text text-muted small">ปิ้งย่างบรรยากาศแคมป์ปิ้ง</p>
+          </div>
+          <a href="detailHealJai.html" class="stretched-link"></a>
+        </div>
+
+        <div class="card">
+          <img
+            src="ตามสั่ง/มาม่าสเต็ก/502705853_122111426978877393_3592318747082054071_n.jpg"
+            class="card-img-top"
+            alt="r3"
+          />
+          <div class="card-body">
+            <h6 class="card-title">มาม่าต้มยำปรุงสด</h6>
+            <p class="card-text text-muted small">เมนูแซ่บ ราคาดี</p>
+          </div>
+          <a href="detailMamaTomyum&Steak.html" class="stretched-link"></a>
+        </div>
+
+        <div class="card">
+          <img
+            src="ตามสั่ง/wakamama/ee7b5855-b740-43de-9fcb-d0dbf4c9df4e.png"
+            class="card-img-top"
+            alt="r4"
+          />
+          <div class="card-body">
+            <h6 class="card-title">WAKAMAMA</h6>
+            <p class="card-text text-muted small">ญี่ปุ่นโมเดิร์น</p>
+          </div>
+          <a href="detailWAKAMAMA.html" class="stretched-link"></a>
+        </div>
+
+        <div class="card">
+          <img
+            src="ตามสั่ง/3.โรงลาบอุดร/b36ca08e-b6b4-4f30-857c-56294dd8a871.png"
+            class="card-img-top"
+            alt="r5"
+          />
+          <div class="card-body">
+            <h6 class="card-title">โรงลาบอุบล</h6>
+            <p class="card-text text-muted small">ร้านอีสานแซ่บ</p>
+            <a href="detailLarbUbon.html" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ร้านเด็ด (moved down) -->
+
+    <!-- คาเฟ่ -->
+    <section class="container mt-5">
+      <h2 class="section-title">คาเฟ่ ของหวาน</h2>
+
+      <div class="row">
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card h-100" data-id="reslips">
+            <img
+              src="ของหวาน/3.คาเฟ่/558370875_17903242518270698_4919750066162405440_n.jpg"
+              class="img-fluid"
+              alt="Redlip Cafe"
+            />
+            <div class="card-body">
+              <div class="restaurant-name">
+                RED LIPS Café & Art Space
+              </div>
+              <p class="restaurant-desc">
+                คาเฟ่อาร์ตสุดเก๋ บรรยากาศสงบ มีมุมถ่ายรูปเพียบ
+                เครื่องดื่มและของหวานจัดเสิร์ฟสวย
+              </p>
+              <p>
+                ⭐ <span class="avgRating">0.0</span> (
+                <span class="ratingCount">0</span>)
+              </p>
+              <a href="detailreslips.html" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card h-100" data-id="story cafe">
+            <img
+              src="ของหวาน/5.เดอะ สตอรี่คาเฟ่/e165b8e7-0c5c-4227-9916-d8b97ebf5d6a.png"
+              class="img-fluid"
+              alt="เดอะ สตอรี่คาเฟ่"
+            />
+            <div class="card-body">
+              <div class="restaurant-name"> เดอะ สตอรี่คาเฟ่
+              </div>
+             
+              <p class="restaurant-desc">
+                ร้านนั่งชิลคลอง 6 พื้นที่กว้างสบาย เมนูอาหารไทยรสกลมกล่อม
+                พร้อมกาแฟและขนมหลากหลาย
+              </p>
+              <p>
+                ⭐ <span class="avgRating">0.0</span> (
+                <span class="ratingCount">0</span>)
+              </p>
+              <a href="detailTheStoryCafe.html" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card h-100" data-id="sainom">
+            <img
+              src="ของหวาน/1.ใส่นม/3c5031b8-e005-4c42-8520-025d880bd079.png"
+              class="img-fluid"
+              alt="Sainom"
+            />
+            <div class="card-body">
+              <div class="restaurant-name">Sainom</div>
+              <p class="restaurant-desc">
+                จุดเช็กอินสายหวาน นมสดหอมมัน โทสต์กรอบนอกนุ่มใน
+                อร่อยฟินในราคาสบาย ๆ
+              </p>
+              <p>
+                ⭐ <span class="avgRating">0.0</span> (
+                <span class="ratingCount">0</span>)
+              </p>
+              <a href="detailSainom.html" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card h-100" data-id="pennungnomsod">
+            <img
+              src="ของหวาน/4.เป็นหนึ่งนมสด/536189346_122168218730518662_4499121100678073213_n.jpg"
+              class="img-fluid"
+              alt="เป็นหนึ่งนมสด"
+            />
+            <div class="card-body">
+              <div class="restaurant-name">เป็นหนึ่งนมสด</div>
+              <p class="restaurant-desc">
+                ร้านนมสดและโทสต์ยอดนิยมคลอง 6 หอมมัน ละมุน ไม่เลี่ยน
+                เหมาะกับการนั่งพักผ่อนสบาย
+              </p>
+              <p>
+                ⭐ <span class="avgRating">0.0</span> (
+                <span class="ratingCount">0</span>)
+              </p>
+              <a href="detailPen1nomsod.html" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- อาหาร -->
+    <section class="container mt-5">
+      <h2 class="section-title">ร้านอาหาร</h2>
+
+      <div class="row">
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card h-100" data-id="mama steak">
+            <img
+              src="ตามสั่ง/มาม่าสเต็ก/502705853_122111426978877393_3592318747082054071_n.jpg"
+              class="img-fluid"
+              alt="mama tomyum"
+            />
+            <div class="card-body">
+              <div class="restaurant-name">มาม่าต้มยำปรุงสด & สเต็ก Everyday</div>
+              <p class="restaurant-desc">
+                ร้านกินง่าย บรรยากาศสบาย หม้อไฟต้มยำ ยำแซ่บ และสเต็กหลากหลาย
+                จานอร่อย ราคาเป็นมิตร
+              </p>
+              <p>
+                ⭐ <span class="avgRating">0.0</span> (
+                <span class="ratingCount">0</span>)
+              </p>
+              <a href="detailMamaTomyum&Steak.html" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card h-100" data-id="wakamama">
+            <img
+              src="ตามสั่ง/wakamama/90b5769b-5cbc-4eb2-8d72-f94faf970a10.png"
+              class="img-fluid"
+              alt="เดอะ สตอรี่คาเฟ่"
+            />
+            <div class="card-body">
+              <div class="restaurant-name">WAKAMAMA</div>
+              <p class="restaurant-desc">
+                ญี่ปุ่นโมเดิร์นบรรยากาศอบอุ่นสงบ และเป็นธรรมชาติ
+                วัตถุดิบสดของทอดกรอบนอกนุ่มในน่าลิ้มลอง
+              </p>
+              <p>
+                ⭐ <span class="avgRating">0.0</span> (
+                <span class="ratingCount">0</span>)
+              </p>
+              <a href="detailWAKAMAMA.html" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card h-100" data-id="lab ubon">
+            <img
+              src="ตามสั่ง/3.โรงลาบอุดร/471133286_580476001401566_1386754312633773186_n.jpg"
+              class="img-fluid"
+              alt="Sainom"
+            />
+            <div class="card-body">
+              <div class="restaurant-name">โรงลาบอุดร</div>
+              <p class="restaurant-desc">
+                ร้านอีสานบรรยากาศโปร่งนั่งสบาย เป็นกันเองแซ่บถึงเครื่อง
+                เหมาะกินกับเพื่อนและครอบครัว
+              </p>
+              <p>
+                ⭐ <span class="avgRating">0.0</span> (
+                <span class="ratingCount">0</span>)
+              </p>
+              <a href="detailWakaMama.html" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card h-100" data-id="kaprou">
+            <img
+              src="ตามสั่ง/กระเพาเข่งคลอง6/IMG_0308.jpg"
+              class="img-fluid"
+              alt="ร้านกะเพราเข่งคลอง6"
+            />
+            <div class="card-body">
+              <div class="restaurant-name">ร้านกะเพราเข่งคลอง6</div>
+              <p class="restaurant-desc">
+                ร้านกะเพราจานใหญ่ จัดเต็มทุกคำ ผัดหอมกระทะ รสเข้มข้น
+                เสิร์ฟมาแบบล้นเข่ง อิ่มจุใจในราคาคุ้มค่า
+              </p>
+              <p>
+                ⭐ <span class="avgRating">0.0</span> (
+                <span class="ratingCount">0</span>)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ปิ่งย่าง -->
+    <section class="container mt-5">
+      <h2 class="section-title">ปิ้งย่างชาบู</h2>
+
+      <div class="row">
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card h-100" data-id="pleang">
+            <img
+              src="ปิ้งย่าง/1.ร้านพี่เลี้ยงหมูกระทะ/d85d3e47-4104-4a04-976a-cb6efce45b9b.png"
+              class="img-fluid"
+              alt="pleang"
+            />
+            <div class="card-body">
+              <div class="restaurant-name">พี่เลี้ยงหมูกระทะ</div>
+              <p class="restaurant-desc">
+                พี่เลี้ยงหมูกระทะ เปิดถึงตีสอง ราคาเข้าถึงง่าย
+                จุดสังสรรค์ยามค่ำคืนยอดฮิต
+              </p>
+              <p>
+                ⭐ <span class="avgRating">0.0</span> (
+                <span class="ratingCount">0</span>)
+              </p>
+              <a href="detailPLeang.html" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card h-100" data-id="healjai">
+            <img
+              src="ปิ้งย่าง/2.ฮีลใจหมูกระทะ/473325717_122162414036334218_6164245716752242292_n.jpg"
+              class="img-fluid"
+              alt="เดอะ สตอรี่คาเฟ่"
+            />
+            <div class="card-body">
+              <div class="restaurant-name">ฮีลใจหมูกระทะ</div>
+              <p class="restaurant-desc">
+                ปิ้งย่าง สายสไตล์แคมป์ปิ้ง บรรยากาศอบอุ่น วัตถุดิบสดใหม่
+                น้ำจิ้มโคราชเติมได้ไม่อั้น
+              </p>
+              <p>
+                ⭐ <span class="avgRating">0.0</span> (
+                <span class="ratingCount">0</span>)
+              </p>
+              <a href="detailHealJai.html" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card h-100" data-id="ohya">
+            <img
+              src="ปิ้งย่าง/4.โอย่า/830be1df-9a53-4c25-8522-d90163805ec1.png"
+              class="img-fluid"
+              alt="Sainom"
+            />
+            <div class="card-body">
+              <div class="restaurant-name">โอย่า</div>
+              <p class="restaurant-desc">
+                ร้านเปิดโล่งบรรยากาศสบายบุฟเฟ่ต์ราคาประหยัด หมูหมักนุ่ม
+                น้ำจิ้มเข้มข้นอิ่มไม่จำกัดเวลา
+              </p>
+              <p>
+                ⭐ <span class="avgRating">0.0</span> (
+                <span class="ratingCount">0</span>)
+              </p>
+              <a href="detailOyaBuffet.html" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card h-100" data-id="yangney">
+            <img
+              src="ปิ้งย่าง/5.ย่างเนย/612044728_1321397370025030_4109973418945427135_n.jpg"
+              class="img-fluid"
+              alt="เป็นหนึ่งนมสด"
+            />
+            <div class="card-body">
+              <div class="restaurant-name">ย่างเนย</div>
+              <p class="restaurant-desc">
+                บรรยากาศโปร่งโล่ง หอมเนยบนเตาสุดฟิน วัตถุดิบหลากหลาย
+                น้ำจิ้มเข้มข้น เติมได้ไม่อั้นคุ้มค่าทุกคำ
+              </p>
+              <p>
+                ⭐ <span class="avgRating">0.0</span> (
+                <span class="ratingCount">0</span>)
+              </p>
+              <a href="detailyangneoy.html" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- REVIEW SLIDER -->
+<section class="footer-review-section">
+  <div class="container text-center">
+
+    <h5 class="review-title">Latest Reviews</h5>
+
+    <div class="footer-slider-wrapper">
+      <div class="footer-slider" id="footerSlider"></div>
+    </div>
+
+  </div>
+</section>
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <h4>K6 guide</h4>
+            <p>เว็บรีวิวร้านอาหาร คาเฟ่ และที่เที่ยวในคลอง 6 ปทุมธานี</p>
+          </div>
+
+          <div class="col-md-3 mb-4">
+            <h5>เมนู</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white">หน้าหลัก</a></li>
+              <li><a href="#" class="text-white">รีวิวร้าน</a></li>
+              <li><a href="#" class="text-white">บทความ</a></li>
+              <li><a href="#" class="text-white">ติดต่อเรา</a></li>
+            </ul>
+          </div>
+
+          <div class="col-md-3 mb-4">
+            <h5>ติดต่อเรา</h5>
+            <p>
+              <i class="fa fa-map-marker-alt"></i> คลอง 6 ปทุมธานี<br />
+              <i class="fa fa-envelope"></i> k6guide@gmail.com<br />
+              <i class="fa fa-phone"></i> 08X-XXX-XXXX
+            </p>
+            <div>
+              <a
+                href="https://www.facebook.com/share/1Ae7rR3xVY/"
+                class="text-white mr-3"
+                ><i class="fab fa-facebook fa-lg"></i
+              ></a>
+              <a
+                href="https://www.instagram.com/k6_guide?igsh=bGd1czJmdzFvNGd1&utm_source=qr"
+                class="text-white mr-3"
+                ><i class="fab fa-instagram fa-lg"></i
+              ></a>
+              <a href="#" class="text-white"
+                ><i class="fab fa-line fa-lg"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+
+        <hr style="background: white; opacity: 0.2" />
+        <div class="text-center">
+          <p class="mb-0">© 2026 K6 guide | รีวิวกินเที่ยวคลอง 6</p>
+        </div>
+      </div>
+    </footer>
+    <script type="module">
+      /* ================= IMPORT ================= */
+
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        collectionGroup,
+        query,
+        orderBy,
+        limit,
+        onSnapshot,
+        getDoc,
+        doc,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        signOut,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+      /* ================= FIREBASE CONFIG ================= */
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAruIfPAa_g0rD6iJsYbOC4HSjRpjkDJ5s",
+        authDomain: "programgroup-804c9.firebaseapp.com",
+        projectId: "programgroup-804c9",
+        storageBucket: "programgroup-804c9.firebasestorage.app",
+        messagingSenderId: "406167474531",
+        appId: "1:406167474531:web:4acc534aff4b5f00720356",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const auth = getAuth(app);
+
+      /* ================= LOGIN / REGISTER ================= */
+
+      window.register = async function (email, password) {
+        await createUserWithEmailAndPassword(auth, email, password);
+      };
+
+      window.login = async function (email, password) {
+        await signInWithEmailAndPassword(auth, email, password);
+      };
+
+      window.logout = async function () {
+        await signOut(auth);
+      };
+
+      /* ================= AUTH STATE ================= */
+
+
+/* ===== RANDOM COLOR ===== */
+function generateColorFromString(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  const colors = [
+    "#e74c3c","#9b59b6","#3498db","#1abc9c",
+    "#f39c12","#2ecc71","#e67e22","#16a085",
+    "#8e44ad","#2c3e50","#ff4d4d","#ff9800"
+  ];
+
+  return colors[Math.abs(hash % colors.length)];
+}
+
+/* ===== AUTH STATE ===== */
+onAuthStateChanged(auth, async (user) => {
+
+  const loginBtn = document.getElementById("loginBtn");
+  const userDropdown = document.getElementById("userDropdown");
+  const userNameDisplay = document.getElementById("userNameDisplay");
+  const dropdownUserName = document.getElementById("dropdownUserName");
+  const avatarLetter = document.getElementById("avatarLetter");
+  const roleBadge = document.getElementById("roleBadge");
+  const adminLink = document.getElementById("adminLink");
+  const avatarCircle = document.querySelector(".avatar-circle");
+
+  if (user) {
+
+    loginBtn.style.display = "none";
+    userDropdown.style.display = "inline-block";
+
+    const userRef = doc(db, "users", user.uid);
+    const snap = await getDoc(userRef);
+
+    let username = user.email;
+    let role = "user";
+
+    if (snap.exists()) {
+      const data = snap.data();
+      username = data.username || user.email;
+      role = data.role || "user";
+    }
+
+    // Navbar
+    userNameDisplay.innerText = username;
+    avatarLetter.innerText = username.charAt(0);
+    avatarCircle.style.background =
+      generateColorFromString(username);
+
+    // Dropdown
+    dropdownUserName.innerText = username;
+
+    if (role === "admin") {
+      roleBadge.innerText = "ADMIN";
+      roleBadge.className = "badge badge-warning";
+      adminLink.style.display = "block";
+    } else {
+      roleBadge.innerText = "USER";
+      roleBadge.className = "badge badge-secondary";
+      adminLink.style.display = "none";
+    }
+
+  } else {
+
+    loginBtn.style.display = "inline-block";
+    userDropdown.style.display = "none";
+
+  }
+
+});
+
+/* ===== LOGOUT ===== */
+window.logout = async function () {
+  await signOut(auth);
+  window.location.href = "index.html";
+};
+      /* ================= LOAD RATINGS ================= */
+
+      async function loadRatings() {
+        const snapshot = await getDocs(collection(db, "restaurants"));
+
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          const card = document.querySelector(`.card[data-id="${docSnap.id}"]`);
+          if (!card) return;
+
+          const count = data.ratingCount || 0;
+          const total = data.ratingTotal || 0;
+          const avg = count > 0 ? (total / count).toFixed(1) : "0.0";
+
+          const avgEl = card.querySelector(".avgRating");
+          const countEl = card.querySelector(".ratingCount");
+
+          if (avgEl) avgEl.textContent = avg;
+          if (countEl) countEl.textContent = count;
+        });
+      }
+
+      loadRatings();
+      //*มินิรีวิว*//
+async function loadFooterSlider(){
+
+  const snapshot = await getDocs(collectionGroup(db,"reviews"));
+
+  const slider = document.getElementById("footerSlider");
+
+  if(!slider) return;
+
+  slider.innerHTML="";
+
+  let reviews=[];
+
+  for(const docSnap of snapshot.docs){
+
+    const data = docSnap.data();
+
+    const restaurantRef = docSnap.ref.parent.parent;
+
+    let shopName="ร้านอาหาร";
+
+    if(restaurantRef){
+
+      const shopDoc = await getDoc(restaurantRef);
+
+      if(shopDoc.exists()){
+        shopName = shopDoc.data().shopName;
+      }
+
+    }
+
+    reviews.push({
+      rating:data.rating || 0,
+      comment:data.comment || "",
+      name:data.name || "Anonymous",
+      shopName:shopName,
+      createdAt:data.createdAt?.seconds || 0
+    });
+
+  }
+
+  reviews.sort((a,b)=> b.createdAt - a.createdAt);
+
+  reviews = reviews.slice(0,10);
+
+  const loopData=[...reviews,...reviews];
+
+  loopData.forEach(item=>{
+
+    let starsHtml="";
+
+    for(let i=1;i<=5;i++){
+
+      starsHtml+=`
+      <i class="fa fa-star"
+      style="color:${i<=item.rating?"#ff9800":"#ddd"}"></i>`;
+
+    }
+
+    const avatar = item.name.charAt(0).toUpperCase();
+
+    slider.innerHTML+=`
+
+      <div class="footer-review-card">
+
+        <div class="review-avatar">
+          ${avatar}
+        </div>
+
+        <div class="review-name">
+          ${item.name}
+        </div>
+
+        <div class="review-shop">
+          ${item.shopName}
+        </div>
+
+        <div>
+          ${starsHtml}
+        </div>
+
+        <div class="review-comment">
+          ${item.comment.substring(0,70)}
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+loadFooterSlider();
+
+/* ================= SEARCH ================= */
+window.searchRestaurant = async function(){
+
+  const keyword = document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase();
+
+  const snapshot = await getDocs(collection(db,"restaurants"));
+
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach(card => card.style.display = "none");
+
+  snapshot.forEach(docSnap=>{
+
+    const data = docSnap.data();
+
+    const name = data.shopName?.toLowerCase() || "";
+
+    if(name.includes(keyword)){
+
+      const card = document.querySelector(
+        `.card[data-id="${docSnap.id}"]`
+      );
+
+      if(card){
+        card.style.display = "block";
+      }
+
+    }
+
+  });
+
+}
+document
+.getElementById("searchInput")
+.addEventListener("keyup",function(e){
+
+  if(e.key==="Enter"){
+    searchRestaurant();
+  }
+
+});
+    </script>
+
+    <script>
+        (function() {
+            var lastScroll = 0;
+            var navbar = document.querySelector('.navbar');
+            var ticking = false;
+
+            function onScroll() {
+                var current = window.pageYOffset || document.documentElement.scrollTop;
+                if (current > lastScroll && current > 80) {
+                    // scrolling down
+                    navbar.classList.add('navbar-hidden');
+                } else {
+                    // scrolling up
+                    navbar.classList.remove('navbar-hidden');
+                }
+                // add small shrink after scrolling some
+                if (current > 50) navbar.classList.add('navbar-shrink');
+                else navbar.classList.remove('navbar-shrink');
+                lastScroll = current <= 0 ? 0 : current;
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(onScroll);
+                    ticking = true;
+                }
+            });
+        })();
+    </script>
+
+    <script>
+        (function() {
+            var input = document.getElementById('navSearchInput');
+            var closeBtn = document.getElementById('closeSearchBtn');
+            if (!input || !closeBtn) return;
+
+            input.addEventListener('focus', function() {
+                closeBtn.classList.remove('d-none');
+            });
+
+            input.addEventListener('blur', function() {
+                setTimeout(function() {
+                    closeBtn.classList.add('d-none');
+                }, 150);
+            });
+
+            // allow Enter to submit
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    var form = input.closest('form');
+                    if (form) form.submit();
+                }
+            });
+
+            // close button: hide and clear input
+            closeBtn.addEventListener('click', function(ev) {
+                ev.preventDefault();
+                input.value = '';
+                closeBtn.classList.add('d-none');
+                input.blur();
+            });
+        })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Users | Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body data-page="users">
+
+<div class="container mt-5">
+<h3>👥 จัดการผู้ใช้</h3>
+<div id="userList" class="mt-4"></div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+apiKey:"AIzaSyAruIfPAa_g0rD6iJsYbOC4HSjRpjkDJ5s",
+authDomain:"programgroup-804c9.firebaseapp.com",
+projectId:"programgroup-804c9"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+/* 🔐 ตรวจ admin */
+onAuthStateChanged(auth, user=>{
+if(!user) window.location.href="login.html";
+});
+
+onSnapshot(collection(db,"users"), snapshot=>{
+const list = document.getElementById("userList");
+list.innerHTML="";
+
+snapshot.forEach(docSnap=>{
+const data = docSnap.data();
+const uid = docSnap.id;
+
+list.innerHTML+=`
+<div class="card p-3 mb-2">
+<strong>${data.username}</strong> (${data.role})
+<br>
+<button onclick="toggleBan('${uid}',${data.isBanned})"
+class="btn btn-sm btn-warning mt-2">
+${data.isBanned ? "ปลดแบน":"แบน"}
+</button>
+</div>
+`;
+});
+});
+
+window.toggleBan = async function(uid,current){
+await updateDoc(doc(db,"users",uid),{
+isBanned: !current
+});
+};
+
+</script>
+</body>
+</html>

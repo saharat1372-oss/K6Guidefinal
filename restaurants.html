@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Restaurants | Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body data-page="restaurants">
+
+<div class="container mt-5">
+<h3>🏪 จัดการร้าน</h3>
+<div id="restaurantList" class="mt-4"></div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey:"AIzaSyAruIfPAa_g0rD6iJsYbOC4HSjRpjkDJ5s",
+authDomain:"programgroup-804c9.firebaseapp.com",
+projectId:"programgroup-804c9"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+onSnapshot(collection(db,"restaurants"), snapshot=>{
+const list = document.getElementById("restaurantList");
+list.innerHTML="";
+
+snapshot.forEach(docSnap=>{
+const data = docSnap.data();
+const id = docSnap.id;
+
+list.innerHTML+=`
+<div class="card p-3 mb-2">
+<strong>${id}</strong>
+<br>
+<button onclick="deleteRestaurant('${id}')"
+class="btn btn-sm btn-danger mt-2">
+ลบร้าน
+</button>
+</div>
+`;
+});
+});
+
+window.deleteRestaurant = async function(id){
+await deleteDoc(doc(db,"restaurants",id));
+};
+
+</script>
+</body>
+</html>
